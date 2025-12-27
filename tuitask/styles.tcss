@@ -1,0 +1,115 @@
+Screen {
+    background: #0d0f18;
+    color: #e6e6f0;
+}
+
+.app-body {
+    height: 100%;
+}
+
+.side-panel {
+    width: 24;
+    padding: 2 1;
+    border: solid #292d3e;
+    background: #121422;
+}
+
+.nav-title {
+    color: #c792ea;
+    text-style: bold;
+    margin-bottom: 1;
+}
+
+.nav-button {
+    width: 100%;
+    margin: 0 0 1 0;
+    background: #1f2333;
+    border: solid #2b3046;
+}
+
+.nav-button:hover {
+    background: #2b3046;
+}
+
+.nav-button.ghost {
+    background: transparent;
+    border: solid #2b3046;
+    color: #8c91a6;
+}
+
+.panel {
+    padding: 1 2;
+    border: solid #2b3046;
+    background: #141826;
+    margin: 1;
+}
+
+.panel-title {
+    color: #ffcb6b;
+    text-style: bold;
+    margin-bottom: 1;
+}
+
+.task-row {
+    height: 100%;
+}
+
+.task-list {
+    height: 100%;
+    background: #111420;
+    border: solid #2b3046;
+}
+
+.login-card {
+    width: 60%;
+    min-height: 22;
+    align: center middle;
+    padding: 2 4;
+    border: heavy #c792ea;
+    background: #151a2b;
+}
+
+.login-title {
+    text-style: bold;
+    color: #c792ea;
+    content-align: center middle;
+    margin-bottom: 1;
+}
+
+.login-subtitle {
+    content-align: center middle;
+    color: #a6accd;
+    margin-bottom: 2;
+}
+
+.login-label {
+    color: #ffcb6b;
+    margin: 1 0 0 0;
+}
+
+.toggle-row {
+    width: 100%;
+    height: auto;
+}
+
+.toggle {
+    width: 1fr;
+    background: #1f2333;
+    border: solid #2b3046;
+}
+
+.toggle.on {
+    background: #2b3046;
+    color: #c3e88d;
+    border: solid #82aaff;
+}
+
+.primary {
+    background: #2b3046;
+    border: heavy #82aaff;
+    text-style: bold;
+}
+
+#task-card-content {
+    color: #a6accd;
+}
