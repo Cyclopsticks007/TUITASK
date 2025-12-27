@@ -1,0 +1,16 @@
+[project]
+name = "tuitask"
+version = "0.1.0"
+description = "A terminal-styled task manager TUI."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "textual>=0.50.0",
+]
+
+[project.scripts]
+tuitask = "tuitask.app:run"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

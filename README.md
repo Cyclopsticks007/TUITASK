@@ -1,2 +1,10 @@
 # TUITASK
-A Terminal Styled Task Manager
+A terminal-styled task manager TUI.
+
+## Run locally
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -e .
+tuitask
+```
