@@ -12,5 +12,8 @@ tuitask
 ```powershell
 .\scripts\install.ps1
 .\.venv\Scripts\Activate.ps1
+python -m venv .venv
+source .venv/bin/activate
+pip install -e .
 tuitask
 ```
