@@ -5,7 +5,7 @@ from datetime import date, timedelta
 from enum import Enum
 
 import calendar
-from textual import on, events
+from textual import on
 from textual.app import App, ComposeResult
 from textual.containers import Container, Horizontal, Vertical, VerticalScroll, Grid
 from textual.reactive import reactive
@@ -13,7 +13,6 @@ from textual.screen import Screen, ModalScreen
 from textual.widgets import (
     Button,
     Footer,
-    Header,
     Input,
     Label,
     ListItem,
@@ -22,7 +21,6 @@ from textual.widgets import (
     TabbedContent,
     TabPane,
     Tree,
-    Placeholder,
 )
 
 class CalendarWidget(Container):
@@ -320,7 +318,7 @@ class TaskListPanel(VerticalScroll):
         import logging
         logging.debug("Composing TaskListPanel")
         try:
-            yield Static("Task List", classes="panel-title")
+            self.border_title = "Task List"
             task_list = ListView(classes="task-list", id="task-list")
             if not SAMPLE_TASKS:
                 task_list.append(ListItem(Label("No tasks available")))
@@ -344,7 +342,7 @@ class TaskCardPanel(Vertical):
     def compose(self) -> ComposeResult:
         import logging
         logging.debug("Composing TaskCardPanel")
-        yield Static("Task Card", classes="panel-title")
+        self.border_title = "Task Card"
         yield Static("", id="task-card-content")
 
     def on_mount(self) -> None:
@@ -396,7 +394,7 @@ class CalendarPanel(Static):
     def compose(self) -> ComposeResult:
         import logging
         logging.debug("Composing CalendarPanel")
-        yield Static("Calendar", classes="panel-title")
+        self.border_title = "Calendar"
         yield Static("Upcoming milestones")
         yield Static("• Mon: Sprint demo")
         yield Static("• Wed: Ops review")
@@ -407,7 +405,7 @@ class ProfilePanel(Static):
     def compose(self) -> ComposeResult:
         import logging
         logging.debug("Composing ProfilePanel")
-        yield Static("User Profile", classes="panel-title")
+        self.border_title = "User Profile"
         yield Static("Handle: @operator")
         yield Static("Rank: Architect (XP 2,480)")
         yield Static("Active streak: 12 days")
@@ -418,7 +416,7 @@ class HostingPanel(Static):
     def compose(self) -> ComposeResult:
         import logging
         logging.debug("Composing HostingPanel")
-        yield Static("Server Hosting", classes="panel-title")
+        self.border_title = "Server Hosting"
         yield Static("Mode: Self-hosted / Raspberry Pi")
         yield Static("Status: Online • 4 active users")
         yield Static("Sync: Async realtime")
@@ -432,57 +430,71 @@ class MainScreen(Screen):
     ]
 
     def compose(self) -> ComposeResult:
-        yield Header(show_clock=True, id="header")
-        with Container(classes="app-body"):
-            with Vertical(classes="side-panel"):
-                yield Static("TUITASK", classes="nav-title")
-                nav_tree = Tree("Navigation", id="nav-tree")
-                nav_tree.root.expand()
-                nav_tree.root.add_leaf("Dashboard", data="dashboard")
-                nav_tree.root.add_leaf("Tasks", data="tasks")
-                nav_tree.root.add_leaf("Calendar", data="calendar")
-                nav_tree.root.add_leaf("Profile", data="profile")
-                nav_tree.root.add_leaf("Hosting", data="hosting")
-                nav_tree.root.add_leaf("Sign Out", data="signout")
-                yield nav_tree
-            
-            with Container(id="main-container"):
-                yield Static("v0.1.0-alpha · Local Instance", classes="header-bar")
-                with TabbedContent(id="main-tabs"):
-                    with TabPane("Dashboard", id="dashboard"):
-                        with Container(classes="dashboard-grid"):
-                            with Vertical(classes="module-container"):
-                                yield Static("Live Operations", classes="panel-title")
-                                yield Vertical(
-                                    Horizontal(Static("Due Soon: ", classes="stat-label"), Static("4", classes="stat-value"), classes="stat-row"),
-                                    Horizontal(Static("Open Tickets: ", classes="stat-label"), Static("2", classes="stat-value"), classes="stat-row"),
-                                    Horizontal(Static("Team Velocity: ", classes="stat-label"), Static("142", classes="stat-value"), classes="stat-row"),
-                                )
-                            with Vertical(classes="module-container"):
-                                yield Static("Calendar", classes="panel-title")
-                                yield CalendarWidget(classes="calendar-widget")
-                            with Vertical(classes="module-container"):
-                                yield Static("Recent Activity", classes="panel-title")
-                                yield Static("• @operator logged in")
-                                yield Static("• Task #3 sign-off requested")
-                                yield Static("• Connection stable")
-                            with Vertical(classes="module-container"):
-                                yield Static("System Status", classes="panel-title")
-                                yield HostingPanel()
-                                
-                    with TabPane("Tasks", id="tasks"):
-                        with Horizontal(classes="task-row"):
-                            yield TaskListPanel(classes="panel")
-                            yield TaskCardPanel(classes="panel")
-                    with TabPane("Calendar", id="calendar"):
-                        yield CalendarPanel(classes="panel")
-                    with TabPane("Profile", id="profile"):
-                        yield ProfilePanel(classes="panel")
-                    with TabPane("Hosting", id="hosting"):
-                        yield HostingPanel(classes="panel")
-        yield Footer()
+        with Container(id="app-frame"):
+            with Container(classes="app-body"):
+                with Vertical(classes="side-panel"):
+                    yield Static("TUITASK", classes="nav-title")
+                    nav_tree = Tree("Navigation", id="nav-tree")
+                    nav_tree.root.expand()
+                    nav_tree.root.add_leaf("Dashboard", data="dashboard")
+                    nav_tree.root.add_leaf("Tasks", data="tasks")
+                    nav_tree.root.add_leaf("Calendar", data="calendar")
+                    nav_tree.root.add_leaf("Profile", data="profile")
+                    nav_tree.root.add_leaf("Hosting", data="hosting")
+                    nav_tree.root.add_leaf("Sign Out", data="signout")
+                    yield nav_tree
+                
+                with Container(id="main-container"):
+                    with TabbedContent(id="main-tabs"):
+                        with TabPane("Dashboard", id="dashboard"):
+                            with Container(classes="dashboard-grid"):
+                                with Vertical(classes="module-container") as panel:
+                                    panel.border_title = "Live Operations"
+                                    yield Vertical(
+                                        Horizontal(
+                                            Static("Due Soon: ", classes="stat-label"),
+                                            Static("4", classes="stat-value"),
+                                            classes="stat-row",
+                                        ),
+                                        Horizontal(
+                                            Static("Open Tickets: ", classes="stat-label"),
+                                            Static("2", classes="stat-value"),
+                                            classes="stat-row",
+                                        ),
+                                        Horizontal(
+                                            Static("Team Velocity: ", classes="stat-label"),
+                                            Static("142", classes="stat-value"),
+                                            classes="stat-row",
+                                        ),
+                                    )
+                                with Vertical(classes="module-container panel--raised") as panel:
+                                    panel.border_title = "Calendar"
+                                    yield CalendarWidget(classes="calendar-widget")
+                                with Vertical(classes="module-container") as panel:
+                                    panel.border_title = "Recent Activity"
+                                    yield Static("• @operator logged in")
+                                    yield Static("• Task #3 sign-off requested")
+                                    yield Static("• Connection stable")
+                                with Vertical(classes="module-container") as panel:
+                                    panel.border_title = "System Status"
+                                    yield HostingPanel()
+                                    
+                        with TabPane("Tasks", id="tasks"):
+                            with Horizontal(classes="task-row"):
+                                yield TaskListPanel(classes="panel")
+                                yield TaskCardPanel(classes="panel")
+                        with TabPane("Calendar", id="calendar"):
+                            yield CalendarPanel(classes="panel")
+                        with TabPane("Profile", id="profile"):
+                            yield ProfilePanel(classes="panel")
+                        with TabPane("Hosting", id="hosting"):
+                            yield HostingPanel(classes="panel")
+            yield Footer(id="key-footer")
 
     def on_mount(self) -> None:
+        app_frame = self.query_one("#app-frame")
+        app_frame.border_title = "TUITASK v0.1.0-alpha"
+        app_frame.border_subtitle = "Local Instance"
         self.query_one("#main-tabs", TabbedContent).active = "dashboard"
         self.query_one("#nav-tree").focus()
 
