@@ -5,7 +5,7 @@ description = "A terminal-styled task manager TUI."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "textual>=0.50.0",
+    "textual==0.86.0",
 ]
 
 [project.scripts]

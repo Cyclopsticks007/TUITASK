@@ -1,115 +1,290 @@
+/* Definitive Galaxy Theme - Unified Background */
+$background: #050510;
+$surface: #050510;
+$surface-light: #050510;
+$primary: #89b4fa;
+$accent: #cba6f7;
+$secondary: #f38ba8;
+$text: #cdd6f4;
+$text-muted: #7f849c;
+$success: #a6e3a1;
+$warning: #fab387;
+$error: #f38ba8;
+
+* {
+    scrollbar-color: $accent 30%;
+    scrollbar-color-hover: $accent 80%;
+    scrollbar-color-active: $accent;
+    scrollbar-background: $background;
+    scrollbar-size-vertical: 1;
+}
+
 Screen {
-    background: #0d0f18;
-    color: #e6e6f0;
+    background: $background;
+    color: $text;
 }
 
 .app-body {
     height: 100%;
+    layout: horizontal;
+    align: left middle;
 }
 
+/* Sidebar */
 .side-panel {
-    width: 24;
-    padding: 2 1;
-    border: solid #292d3e;
-    background: #121422;
+    width: 20%;
+    height: 60%;
+    background: $background;
+    border: heavy $primary;
+    margin-left: 2;
+    padding: 1 1;
 }
 
 .nav-title {
-    color: #c792ea;
+    color: $accent;
     text-style: bold;
-    margin-bottom: 1;
-}
-
-.nav-button {
-    width: 100%;
     margin: 0 0 1 0;
-    background: #1f2333;
-    border: solid #2b3046;
+    content-align: center middle;
+    border-bottom: double $primary;
+    padding-bottom: 1;
 }
 
-.nav-button:hover {
-    background: #2b3046;
+Tabs {
+    display: none;
 }
 
-.nav-button.ghost {
+Tree {
     background: transparent;
-    border: solid #2b3046;
-    color: #8c91a6;
+    color: $text-muted;
+    border: none;
+    padding: 0 1;
 }
 
-.panel {
-    padding: 1 2;
-    border: solid #2b3046;
-    background: #141826;
+Tree > .tree--label {
+    padding-left: 1;
+}
+
+Tree:focus > .tree--cursor {
+    background: $primary 20%;
+    color: $primary;
+    text-style: bold;
+}
+
+Tree > .tree--guides {
+    color: $text-muted 30%;
+}
+
+/* Main Content */
+#main-container {
+    width: 1fr;
+    height: 100%;
+}
+
+.header-bar {
+    height: 3;
+    background: $background;
+    border-bottom: double $primary;
+    padding: 0 2;
+    content-align: left middle;
+    color: $accent;
+}
+
+.header-bar Label {
+    text-style: bold;
+}
+
+.dashboard-grid {
+    layout: grid;
+    grid-size: 2 2;
+    padding: 1;
+}
+
+.module-container {
+    background: $background;
+    border: round $primary;
     margin: 1;
+    padding: 1 2;
+}
+
+.module-container:focus-within {
+    border: double $accent;
 }
 
 .panel-title {
-    color: #ffcb6b;
+    color: $primary;
+    text-style: bold;
+    margin-bottom: 1;
+    border-bottom: solid #7f849c;
+}
+
+/* Calendar Widget - Fixed Visibility */
+.calendar-widget {
+    height: auto;
+    width: 100%;
+    align: center top;
+}
+
+.calendar-title {
+    width: 100%;
+    content-align: center middle;
+    color: $accent;
     text-style: bold;
     margin-bottom: 1;
 }
 
-.task-row {
-    height: 100%;
+.calendar-internal-grid {
+    layout: grid;
+    grid-size: 7;
+    grid-gutter: 1 1;
+    width: auto;
+    height: auto; 
+    align: center top;
 }
 
-.task-list {
-    height: 100%;
-    background: #111420;
-    border: solid #2b3046;
+.calendar-day-header {
+    width: 4;
+    content-align: center middle;
+    color: $text-muted;
+    text-style: bold;
 }
 
+.calendar-day {
+    width: 4;
+    height: 3; /* Fixed height to ensure rendering */
+    content-align: center middle;
+    color: $text;
+    background: $background;
+}
+
+.calendar-day.today {
+    background: $accent;
+    color: $background;
+    text-style: bold;
+}
+
+.calendar-day.empty {
+    color: transparent;
+}
+
+/* Task List */
+.task-list-view {
+    height: 100%;
+    background: $background;
+}
+
+ListItem {
+    padding: 0 2;
+    height: 3;
+    background: $background;
+    border-bottom: solid #7f849c;
+}
+
+ListItem:hover {
+    background: $primary 10%;
+}
+
+ListItem.-active {
+    background: $primary 20%;
+}
+
+ListItem:focus {
+    color: $accent;
+    text-style: bold;
+}
+
+/* Modal */
+.modal-screen {
+    align: center middle;
+    background: $background 80%;
+}
+
+.modal-container {
+    width: 60%;
+    height: auto;
+    background: $background;
+    border: heavy $primary;
+    padding: 2 4;
+}
+
+.modal-title {
+    color: $accent;
+    text-style: bold;
+    margin-bottom: 2;
+    content-align: center middle;
+}
+
+Input {
+    background: $background;
+    border: tall $primary;
+    margin-bottom: 1;
+}
+
+Input:focus {
+    border: tall $primary;
+}
+
+Button {
+    background: $background;
+    color: $text;
+    border: tall #7f849c;
+    margin-top: 1;
+}
+
+Button:focus {
+    border: tall $primary;
+    color: $primary;
+    text-style: bold;
+}
+
+Button.primary {
+    background: $background;
+    border: tall $accent;
+    color: $accent;
+}
+
+/* Login Screen - Unified */
 .login-card {
     width: 60%;
-    min-height: 22;
+    min-height: 24;
     align: center middle;
     padding: 2 4;
-    border: heavy #c792ea;
-    background: #151a2b;
+    border: double $primary;
+    background: $background;
 }
 
 .login-title {
     text-style: bold;
-    color: #c792ea;
+    color: $accent;
     content-align: center middle;
     margin-bottom: 1;
 }
 
 .login-subtitle {
     content-align: center middle;
-    color: #a6accd;
+    color: $text-muted;
     margin-bottom: 2;
+    border-bottom: double $primary;
+    padding-bottom: 1;
 }
 
-.login-label {
-    color: #ffcb6b;
-    margin: 1 0 0 0;
-}
-
-.toggle-row {
-    width: 100%;
-    height: auto;
-}
-
-.toggle {
-    width: 1fr;
-    background: #1f2333;
-    border: solid #2b3046;
-}
-
-.toggle.on {
-    background: #2b3046;
-    color: #c3e88d;
-    border: solid #82aaff;
-}
-
-.primary {
-    background: #2b3046;
-    border: heavy #82aaff;
+.login-label-center {
+    color: $primary;
+    margin: 1 0 1 0;
+    content-align: center middle;
     text-style: bold;
 }
 
-#task-card-content {
-    color: #a6accd;
+/* Stats */
+.stat-row {
+    height: 1;
+    margin-bottom: 0;
+}
+
+.stat-label {
+    color: $text-muted;
+}
+
+.stat-value {
+    color: $secondary;
+    text-style: bold;
 }
