@@ -1,63 +1,75 @@
-/* Definitive Galaxy Theme - Unified Background */
-$background: #050510;
-$surface: #050510;
-$surface-light: #050510;
-$primary: #89b4fa;
-$accent: #cba6f7;
-$secondary: #f38ba8;
-$text: #cdd6f4;
-$text-muted: #7f849c;
-$success: #a6e3a1;
-$warning: #fab387;
-$error: #f38ba8;
+/* Bagels-inspired neon ledger TUI */
+$bg: #181820;
+$panel-0: #202838;
+$panel-1: #302840;
+$panel-2: #283048;
+$border: #404868;
+$border-strong: #485888;
+$text: #E0E0E0;
+$text-muted: #9AA0B5;
+$text-dim: #6B7188;
+$accent-orange: #F89860;
+$accent-purple: #BB9AF7;
+$accent-blue: #6078B8;
+$success: #85C125;
+$danger: #9A4723;
 
 * {
-    scrollbar-color: $accent 30%;
-    scrollbar-color-hover: $accent 80%;
-    scrollbar-color-active: $accent;
-    scrollbar-background: $background;
+    scrollbar-color: $accent-purple 35%;
+    scrollbar-color-hover: $accent-purple 60%;
+    scrollbar-color-active: $accent-purple;
+    scrollbar-background: $bg;
     scrollbar-size-vertical: 1;
 }
 
 Screen {
-    background: $background;
+    background: $bg;
     color: $text;
+}
+
+#app-frame {
+    background: $bg;
+    border: round $accent-orange;
+    padding: 1 2;
+    border-title-align: left;
+    border-title-color: $accent-orange;
+    border-title-background: $bg;
+    border-title-style: bold;
+    border-subtitle-align: right;
+    border-subtitle-color: $text-dim;
+    border-subtitle-background: $bg;
 }
 
 .app-body {
     height: 100%;
     layout: horizontal;
     align: left middle;
+    gap: 1;
 }
 
 /* Sidebar */
 .side-panel {
-    width: 20%;
-    height: 60%;
-    background: $background;
-    border: heavy $primary;
-    margin-left: 2;
-    padding: 1 1;
+    width: 22;
+    height: 100%;
+    background: $panel-0;
+    border: round $border;
+    padding: 1 2;
 }
 
 .nav-title {
-    color: $accent;
+    color: $accent-orange;
     text-style: bold;
     margin: 0 0 1 0;
     content-align: center middle;
-    border-bottom: double $primary;
+    border-bottom: solid $border;
     padding-bottom: 1;
-}
-
-Tabs {
-    display: none;
 }
 
 Tree {
     background: transparent;
     color: $text-muted;
     border: none;
-    padding: 0 1;
+    padding: 0 0;
 }
 
 Tree > .tree--label {
@@ -65,13 +77,13 @@ Tree > .tree--label {
 }
 
 Tree:focus > .tree--cursor {
-    background: $primary 20%;
-    color: $primary;
+    background: $accent-purple;
+    color: $bg;
     text-style: bold;
 }
 
 Tree > .tree--guides {
-    color: $text-muted 30%;
+    color: $text-dim 40%;
 }
 
 /* Main Content */
@@ -80,44 +92,50 @@ Tree > .tree--guides {
     height: 100%;
 }
 
-.header-bar {
-    height: 3;
-    background: $background;
-    border-bottom: double $primary;
-    padding: 0 2;
-    content-align: left middle;
-    color: $accent;
-}
-
-.header-bar Label {
-    text-style: bold;
-}
-
 .dashboard-grid {
     layout: grid;
     grid-size: 2 2;
-    padding: 1;
+    grid-gutter: 1 1;
+    padding: 0;
 }
 
 .module-container {
-    background: $background;
-    border: round $primary;
-    margin: 1;
+    background: $panel-0;
+    border: round $border;
     padding: 1 2;
 }
 
-.module-container:focus-within {
-    border: double $accent;
+.panel {
+    background: $panel-0;
+    border: round $border;
+    padding: 1 2;
 }
 
-.panel-title {
-    color: $primary;
-    text-style: bold;
-    margin-bottom: 1;
-    border-bottom: solid #7f849c;
+.panel,
+.module-container {
+    border-title-align: left;
+    border-title-color: $text-muted;
+    border-title-background: $panel-0;
+    border-title-style: bold;
 }
 
-/* Calendar Widget - Fixed Visibility */
+.panel--raised {
+    background: $panel-1;
+    border: round $border;
+    border-title-background: $panel-1;
+}
+
+.module-container.panel--raised {
+    background: $panel-1;
+    border-title-background: $panel-1;
+}
+
+.task-row {
+    height: 100%;
+    gap: 1;
+}
+
+/* Calendar Widget */
 .calendar-widget {
     height: auto;
     width: 100%;
@@ -127,7 +145,7 @@ Tree > .tree--guides {
 .calendar-title {
     width: 100%;
     content-align: center middle;
-    color: $accent;
+    color: $text-muted;
     text-style: bold;
     margin-bottom: 1;
 }
@@ -137,7 +155,7 @@ Tree > .tree--guides {
     grid-size: 7;
     grid-gutter: 1 1;
     width: auto;
-    height: auto; 
+    height: auto;
     align: center top;
 }
 
@@ -150,125 +168,130 @@ Tree > .tree--guides {
 
 .calendar-day {
     width: 4;
-    height: 3; /* Fixed height to ensure rendering */
+    height: 3;
     content-align: center middle;
     color: $text;
-    background: $background;
+    background: $panel-2;
 }
 
 .calendar-day.today {
-    background: $accent;
-    color: $background;
+    background: $accent-purple;
+    color: $bg;
     text-style: bold;
 }
 
 .calendar-day.empty {
     color: transparent;
+    background: transparent;
 }
 
 /* Task List */
 .task-list-view {
     height: 100%;
-    background: $background;
+    background: $panel-0;
+}
+
+ListView {
+    background: transparent;
 }
 
 ListItem {
-    padding: 0 2;
+    padding: 0 1;
     height: 3;
-    background: $background;
-    border-bottom: solid #7f849c;
+    background: transparent;
+    border-bottom: solid $border;
 }
 
 ListItem:hover {
-    background: $primary 10%;
+    background: $accent-purple 15%;
 }
 
+ListItem.-highlight,
 ListItem.-active {
-    background: $primary 20%;
-}
-
-ListItem:focus {
-    color: $accent;
+    background: $accent-purple;
+    color: $bg;
     text-style: bold;
 }
 
 /* Modal */
 .modal-screen {
     align: center middle;
-    background: $background 80%;
+    background: $bg 80%;
 }
 
 .modal-container {
     width: 60%;
     height: auto;
-    background: $background;
-    border: heavy $primary;
+    background: $panel-0;
+    border: round $border;
     padding: 2 4;
 }
 
 .modal-title {
-    color: $accent;
+    color: $text-muted;
     text-style: bold;
     margin-bottom: 2;
     content-align: center middle;
 }
 
 Input {
-    background: $background;
-    border: tall $primary;
+    background: $panel-2;
+    border: round $border;
     margin-bottom: 1;
+    padding: 0 1;
+    color: $text;
 }
 
 Input:focus {
-    border: tall $primary;
+    border: round $accent-blue;
 }
 
 Button {
-    background: $background;
+    background: $panel-0;
     color: $text;
-    border: tall #7f849c;
+    border: round $border;
     margin-top: 1;
 }
 
 Button:focus {
-    border: tall $primary;
-    color: $primary;
+    border: round $accent-blue;
+    color: $text;
     text-style: bold;
 }
 
 Button.primary {
-    background: $background;
-    border: tall $accent;
-    color: $accent;
+    background: $panel-0;
+    border: round $accent-purple;
+    color: $accent-purple;
 }
 
-/* Login Screen - Unified */
+/* Login Screen */
 .login-card {
     width: 60%;
     min-height: 24;
     align: center middle;
     padding: 2 4;
-    border: double $primary;
-    background: $background;
+    border: round $border;
+    background: $panel-0;
 }
 
 .login-title {
     text-style: bold;
-    color: $accent;
+    color: $accent-orange;
     content-align: center middle;
     margin-bottom: 1;
 }
 
 .login-subtitle {
     content-align: center middle;
-    color: $text-muted;
+    color: $text-dim;
     margin-bottom: 2;
-    border-bottom: double $primary;
+    border-bottom: solid $border;
     padding-bottom: 1;
 }
 
 .login-label-center {
-    color: $primary;
+    color: $text-muted;
     margin: 1 0 1 0;
     content-align: center middle;
     text-style: bold;
@@ -285,6 +308,35 @@ Button.primary {
 }
 
 .stat-value {
-    color: $secondary;
+    color: $accent-blue;
+    text-style: bold;
+}
+
+/* Tabs */
+TabbedContent {
+    background: $bg;
+}
+
+Tab {
+    color: $text-dim;
+    background: $bg;
+}
+
+Tab.-active {
+    color: $text;
+    text-style: bold;
+    border-bottom: solid $accent-purple;
+}
+
+/* Footer */
+#key-footer {
+    background: $panel-0;
+    border: round $border;
+    padding: 0 1;
+    color: $text-muted;
+}
+
+Footer .footer--key {
+    color: $accent-orange;
     text-style: bold;
 }
