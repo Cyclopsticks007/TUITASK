@@ -1,2 +1,24 @@
 INFO:root:Starting TUITASK
 DEBUG:asyncio:Using proactor: IocpProactor
+DEBUG:root:App mounted
+DEBUG:root:Switching to MainScreen
+DEBUG:root:Composing CalendarPanel
+DEBUG:root:Composing ProfilePanel
+DEBUG:root:Composing HostingPanel
+DEBUG:root:Composing TaskListPanel
+ERROR:root:Error composing TaskListPanel
+Traceback (most recent call last):
+  File "D:\Programming\TUITASK\tuitask\app.py", line 343, in compose
+    task_list.append(item)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "D:\Programming\TUITASK\.venv\Lib\site-packages\textual\widgets\_list_view.py", line 257, in append
+    return self.extend([item])
+           ~~~~~~~~~~~^^^^^^^^
+  File "D:\Programming\TUITASK\.venv\Lib\site-packages\textual\widgets\_list_view.py", line 244, in extend
+    await_mount = self.mount(*items)
+  File "D:\Programming\TUITASK\.venv\Lib\site-packages\textual\widget.py", line 1221, in mount
+    raise MountError(f"Can't mount widget(s) before {self!r} is mounted")
+textual.widget.MountError: Can't mount widget(s) before ListView(id='task-list') is mounted
+DEBUG:root:Composing TaskCardPanel
+DEBUG:root:Composing HostingPanel
+DEBUG:root:Mounting TaskCardPanel

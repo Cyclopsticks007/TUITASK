@@ -28,30 +28,41 @@ class CalendarWidget(Container):
     
     def compose(self) -> ComposeResult:
         today = date.today()
-        cal = calendar.TextCalendar(calendar.SUNDAY)
+        cal = calendar.Calendar(firstweekday=calendar.SUNDAY)
         month_name = calendar.month_name[today.month]
         year = today.year
         
-        # Header
-        yield Label(f"{month_name} {year}", classes="calendar-title")
+        # Get the first and last day of the current week for the period label
+        # Find what week we're in
+        start_of_month = date(year, today.month, 1)
+        end_of_month = date(year, today.month, calendar.monthrange(year, today.month)[1])
+        
+        # Simple period display - just show the month range
+        period_text = f"<<< {start_of_month.day} {month_name[:3]} - {end_of_month.day} {month_name[:3]} >>>"
+        
+        # Header with date range
+        yield Label(period_text, classes="calendar-title")
         
         # Grid Container
         with Container(classes="calendar-internal-grid"):
-            # Weekday Headers
-            for day in ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]:
+            # Weekday Headers - SINGLE LETTERS
+            for day in ["S", "M", "T", "W", "T", "F", "S"]:
                 yield Label(day, classes="calendar-day-header")
             
             # Days
-            month_days = cal.monthdayscalendar(year, today.month)
-            for week in month_days:
-                for d in week:
-                    if d == 0:
-                        yield Label("", classes="calendar-day empty")
-                    else:
-                        classes = "calendar-day"
-                        if d == today.day:
-                            classes += " today"
-                        yield Label(str(d), classes=classes)
+            for d in cal.itermonthdates(year, today.month):
+                day_classes = ["calendar-day"]
+                
+                if d == today:
+                    day_classes.append("today")
+                elif d.month != today.month:
+                    day_classes.append("other-month")
+                elif d < today:
+                    day_classes.append("passed")
+                else:
+                    day_classes.append("future")
+                    
+                yield Label(str(d.day), classes=" ".join(day_classes))
 
 class TaskCreationScreen(ModalScreen):
     """A modal screen for creating new tasks."""

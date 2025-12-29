@@ -1,6 +1,6 @@
 /* Bagels-inspired neon ledger TUI */
 $bg: #181820;
-$panel-0: #202838;
+$panel-0: #181820;
 $panel-1: #302840;
 $panel-2: #283048;
 $border: #404868;
@@ -44,7 +44,6 @@ Screen {
     height: 100%;
     layout: horizontal;
     align: left middle;
-    gap: 1;
 }
 
 /* Sidebar */
@@ -54,6 +53,7 @@ Screen {
     background: $panel-0;
     border: round $border;
     padding: 1 2;
+    margin-right: 1; 
 }
 
 .nav-title {
@@ -129,60 +129,87 @@ Tree > .tree--guides {
     background: $panel-1;
     border-title-background: $panel-1;
 }
-
 .task-row {
     height: 100%;
-    gap: 1;
 }
 
-/* Calendar Widget */
+.task-row > .panel {
+    margin-right: 1;
+}
+
+/* We need to be careful not to apply margin to the last item if possible, 
+   but specific selection is easier. 
+   Actually, let's just apply margin-right to the first child of task-row.
+   In app.py, task-row contains TaskListPanel and TaskCardPanel.
+*/
+
+
+/* Calendar Widget - Bagels Style */
 .calendar-widget {
-    height: auto;
-    width: 100%;
-    align: center top;
-}
-
-.calendar-title {
-    width: 100%;
-    content-align: center middle;
-    color: $text-muted;
-    text-style: bold;
-    margin-bottom: 1;
+    width: 30%; /* Maintaining the requested container size */
+    height: 30%;
+    dock: top;
+    padding: 1 2;
+    background: transparent;
+    border: none;
+    align: center middle;
 }
 
 .calendar-internal-grid {
     layout: grid;
     grid-size: 7;
-    grid-gutter: 1 1;
+    grid-gutter: 0; /* Tight spacing matches the 'width: 20' compact look */
     width: auto;
     height: auto;
-    align: center top;
 }
 
-.calendar-day-header {
-    width: 4;
+.calendar-title {
+    width: 100%;
     content-align: center middle;
-    color: $text-muted;
-    text-style: bold;
+    color: $text-muted; /* Similar to $primary-background-lighten-3 */
+    margin-bottom: 1;
 }
 
+/* "Label { width: 3; color: ... text-style: italic; }" */
+.calendar-day-header {
+    width: 3;
+    height: 1;
+    content-align: center middle; 
+    color: $text-muted; 
+    text-style: italic;
+}
+
+/* "Label { width: 3; }" */
 .calendar-day {
-    width: 4;
-    height: 3;
+    width: 3; 
+    height: 1;
     content-align: center middle;
     color: $text;
-    background: $panel-2;
-}
-
-.calendar-day.today {
-    background: $accent-purple;
-    color: $bg;
-    text-style: bold;
-}
-
-.calendar-day.empty {
-    color: transparent;
     background: transparent;
+}
+
+/* ".not_current_month { color: $panel-lighten-1; }" */
+.calendar-day.other-month {
+    color: $panel-1; 
+    text-style: none;
+}
+
+/* Passed days - dimmed */
+.calendar-day.passed {
+    color: $text-dim;
+    text-style: none;
+}
+
+/* Future days */
+.calendar-day.future {
+    color: $text;
+    text-style: none;
+}
+
+/* ".today { color: $accent; text-style: bold underline; }" */
+.calendar-day.today {
+    color: $accent-orange;
+    text-style: bold underline;
 }
 
 /* Task List */
