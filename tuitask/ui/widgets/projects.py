@@ -1,4 +1,4 @@
-from textual.widgets import Static, ListView, ListItem, Label, Input
+from textual.widgets import ListView, ListItem, Label, Input
 from textual.containers import Vertical, Container
 from textual.app import ComposeResult
 from textual.message import Message
@@ -33,7 +33,8 @@ class ProjectsPanel(Container):
     def __init__(self):
         super().__init__(classes="Panel")
         self.border_title = "Projects (p)"
-        self.projects = []
+        self.projects: list[Project] = []
+        self.filtered_projects: list[Project] = []
 
     def compose(self) -> ComposeResult:
         yield Input(placeholder="Filter projects...", id="input-project-filter")
@@ -41,10 +42,23 @@ class ProjectsPanel(Container):
 
     def set_projects(self, projects: list[Project]):
         self.projects = projects
+        self.filtered_projects = projects
+        self.refresh_list()
+
+    def refresh_list(self) -> None:
         list_view = self.query_one("#list-projects", ListView)
         list_view.clear()
-        for p in projects:
+        for p in self.filtered_projects:
             list_view.append(ProjectItem(p))
+
+    @on(Input.Changed, "#input-project-filter")
+    def on_filter_changed(self, event: Input.Changed) -> None:
+        query = event.value.strip().lower()
+        if not query:
+            self.filtered_projects = self.projects
+        else:
+            self.filtered_projects = [p for p in self.projects if query in p.name.lower()]
+        self.refresh_list()
 
     @on(ListView.Selected)
     def on_selection(self, event: ListView.Selected):

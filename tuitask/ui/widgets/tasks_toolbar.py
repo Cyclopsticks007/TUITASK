@@ -17,9 +17,9 @@ class TasksToolbar(Static):
 
     def compose(self) -> ComposeResult:
         with Horizontal(id="toolbar-left"):
-            # Manual Segmented Control
+            yield Static("View", classes="toolbar-title Muted")
             with Horizontal(id="view-toggle"):
-                yield Button("Table", id="mode-table", classes="view-btn active")
+                yield Button("Table", id="mode-table", classes="view-btn is-active")
                 yield Button("Cards", id="mode-cards", classes="view-btn")
 
         with Horizontal(id="toolbar-right"):
@@ -34,11 +34,21 @@ class TasksToolbar(Static):
         selected_btn = event.button
         
         # Toggle classes
-        self.query(".view-btn").remove_class("active")
-        selected_btn.add_class("active")
+        self.query(".view-btn").remove_class("is-active")
+        selected_btn.add_class("is-active")
         
         mode = "table"
         if selected_btn.id == "mode-cards":
             mode = "cards"
             
         self.post_message(self.ViewModeChanged(mode))
+
+    def set_mode(self, mode: str) -> None:
+        table_btn = self.query_one("#mode-table", Button)
+        cards_btn = self.query_one("#mode-cards", Button)
+        table_btn.remove_class("is-active")
+        cards_btn.remove_class("is-active")
+        if mode == "cards":
+            cards_btn.add_class("is-active")
+        else:
+            table_btn.add_class("is-active")

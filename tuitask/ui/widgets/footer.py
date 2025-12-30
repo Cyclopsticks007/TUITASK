@@ -7,5 +7,5 @@ class FooterBar(Static):
 
     def compose(self) -> ComposeResult:
         with Horizontal():
-            yield Static(" [A] Add Task  [T] Toggle View  [Q] Quit", classes="footer-hints")
+            yield Static(" [A] Add  [T] Toggle View  [Q] Quit", classes="footer-hints")
             yield Static(" TUITASK V3 ", classes="footer-ver Muted")

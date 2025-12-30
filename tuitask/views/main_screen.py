@@ -7,7 +7,7 @@ from textual import on
 from tuitask.components.navigation import TopNav
 from tuitask.views.dashboard import DashboardView
 # Switch to V3 Tasks View
-from tuitask.ui.screens.tasks import TasksView
+from tuitask.ui.screens.tasks import TasksScreen
 from tuitask.ui.screens.create_modal import CreateModal
 
 class MainScreen(Screen):
@@ -20,7 +20,7 @@ class MainScreen(Screen):
         yield TopNav(id="top-nav")
         with ContentSwitcher(initial="dashboard", id="content-switcher"):
             yield DashboardView(id="dashboard")
-            yield TasksView(id="tasks")
+            yield TasksScreen(id="tasks")
     
     def on_mount(self) -> None:
         pass
@@ -37,8 +37,8 @@ class MainScreen(Screen):
             self.query_one("#content-switcher", ContentSwitcher).current = "tasks"
             self.update_nav_state("tab-tasks")
             
-            # Optional: trigger refresh on TasksView
-            # self.query_one(TasksView).load_data() 
+            # Optional: trigger refresh on TasksScreen
+            # self.query_one(TasksScreen).load_hierarchy()
             
         elif event.button.id == "tab-manager":
             pass
@@ -53,14 +53,17 @@ class MainScreen(Screen):
                 btn.variant = "default"
 
     def action_add_task(self) -> None:
-        # Open V3 Create Modal
-        self.app.push_screen(CreateModal(), callback=self.on_task_added)
+        try:
+            self.query_one(TasksScreen).open_create_modal(kind="task")
+        except Exception:
+            self.app.push_screen(CreateModal(), callback=self.on_task_added)
 
     def on_task_added(self, result = None) -> None:
         if result:
             self.app.notify(f"Created: {result.get('title', 'Item')}")
             # Refresh V3 Tasks View
             try:
-                self.query_one(TasksView).load_data()
+                self.query_one(TasksScreen).load_hierarchy()
+                self.query_one(TasksScreen).load_tasks()
             except:
                 pass

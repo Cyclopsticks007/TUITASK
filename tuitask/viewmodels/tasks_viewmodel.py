@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from tuitask.db.engine import get_session
 from tuitask.db.crud import tasks as task_crud
 from tuitask.models.task import Task
@@ -83,4 +85,3 @@ class TasksViewModel:
             
             for t in sample_tasks:
                 await task_crud.create_task(session, t)
-
