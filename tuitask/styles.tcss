@@ -1,369 +1,462 @@
-/* Bagels-inspired neon ledger TUI */
-$bg: #181820;
-$panel-0: #181820;
-$panel-1: #302840;
-$panel-2: #283048;
-$border: #404868;
-$border-strong: #485888;
-$text: #E0E0E0;
-$text-muted: #9AA0B5;
-$text-dim: #6B7188;
-$accent-orange: #F89860;
-$accent-purple: #BB9AF7;
-$accent-blue: #6078B8;
-$success: #85C125;
-$danger: #9A4723;
+/* Bagels-inspired neon ledger TUI - V2 Polish */
 
-* {
-    scrollbar-color: $accent-purple 35%;
-    scrollbar-color-hover: $accent-purple 60%;
-    scrollbar-color-active: $accent-purple;
-    scrollbar-background: $bg;
-    scrollbar-size-vertical: 1;
-}
+/* --- Darker, Richer Palette --- */
+$bg: #0F0F14; /* Deep dark blue-black */
+$panel-0: #14141C; /* Slightly lighter bg for panels */
+$panel-1: #1E1E28; /* Card background */
+$panel-2: #2A2A36; /* Hover/Input background */
+$border: #3A3A4C; 
+$text: #EAEAEA;
+$text-muted: #8B8FA5;
+$text-dim: #54586C;
+
+/* Neon Accents */
+$accent-orange: #FF9E64;
+$accent-purple: #BB9AF7;
+$accent-blue: #7AA2F7;
+$accent-cyan: #7DCFFF;
+$accent-green: #9ECE6A;
+$accent-red: #F7768E;
+$success: #9ECE6A;
+$danger: #F7768E;
 
 Screen {
     background: $bg;
     color: $text;
 }
 
-#app-frame {
-    background: $bg;
-    border: round $accent-orange;
-    padding: 1 2;
-    border-title-align: left;
-    border-title-color: $accent-orange;
-    border-title-background: $bg;
-    border-title-style: bold;
-    border-subtitle-align: right;
-    border-subtitle-color: $text-dim;
-    border-subtitle-background: $bg;
-}
-
-.app-body {
-    height: 100%;
-    layout: horizontal;
-    align: left middle;
-}
-
-/* Sidebar */
-.side-panel {
-    width: 22;
-    height: 100%;
-    background: $panel-0;
-    border: round $border;
-    padding: 1 2;
-    margin-right: 1; 
-}
-
-.nav-title {
-    color: $accent-orange;
-    text-style: bold;
-    margin: 0 0 1 0;
-    content-align: center middle;
-    border-bottom: solid $border;
-    padding-bottom: 1;
-}
-
-Tree {
-    background: transparent;
-    color: $text-muted;
+/* --- Global Components --- */
+Button {
     border: none;
-    padding: 0 0;
+    background: $panel-2;
+    color: $text;
 }
-
-Tree > .tree--label {
-    padding-left: 1;
+Button:hover {
+    background: $border;
 }
-
-Tree:focus > .tree--cursor {
+Button.primary {
     background: $accent-purple;
     color: $bg;
     text-style: bold;
 }
-
-Tree > .tree--guides {
-    color: $text-dim 40%;
-}
-
-/* Main Content */
-#main-container {
-    width: 1fr;
-    height: 100%;
-}
-
-.dashboard-grid {
-    layout: grid;
-    grid-size: 2 2;
-    grid-gutter: 1 1;
-    padding: 0;
-}
-
-.module-container {
-    background: $panel-0;
+Input {
     border: round $border;
-    padding: 1 2;
+    background: $panel-2;
+    color: $text;
 }
 
-.panel {
-    background: $panel-0;
-    border: round $border;
-    padding: 1 2;
+/* --- Top Navigation Bar (Slick) --- */
+#top-nav {
+    dock: top;
+    height: 3;
+    content-align: left middle;
+    padding: 0 1;
+    background: $panel-0; 
+    border-bottom: solid $border;
+    margin-bottom: 1;
 }
-
-.panel,
-.module-container {
-    border-title-align: left;
-    border-title-color: $text-muted;
-    border-title-background: $panel-0;
-    border-title-style: bold;
+.nav-brand-icon {
+    color: $accent-orange;
+    text-style: bold;
 }
-
-.panel--raised {
-    background: $panel-1;
-    border: round $border;
-    border-title-background: $panel-1;
-}
-
-.module-container.panel--raised {
-    background: $panel-1;
-    border-title-background: $panel-1;
-}
-.task-row {
-    height: 100%;
-}
-
-.task-row > .panel {
+.nav-version {
+    color: $text-dim;
     margin-right: 1;
 }
-
-/* We need to be careful not to apply margin to the last item if possible, 
-   but specific selection is easier. 
-   Actually, let's just apply margin-right to the first child of task-row.
-   In app.py, task-row contains TaskListPanel and TaskCardPanel.
-*/
-
-
-/* Calendar Widget - Bagels Style */
-.calendar-widget {
-    width: 30%; /* Maintaining the requested container size */
-    height: 30%;
-    dock: top;
-    padding: 1 2;
+.tab {
+    padding: 0 1;
     background: transparent;
     border: none;
+    color: $text-muted;
+}
+.tab.active {
+    background: transparent;
+    color: $accent-cyan;
+    text-style: bold; 
+    border-bottom: solid $accent-cyan;
+}
+.tab:hover {
+    color: $text;
+}
+
+/* --- Header Nav (Restored) --- */
+#header_nav {
+    height: 100%;
+    width: 100%;
     align: center middle;
 }
 
-.calendar-internal-grid {
-    layout: grid;
-    grid-size: 7;
-    grid-gutter: 0; /* Tight spacing matches the 'width: 20' compact look */
+#nav_left {
     width: auto;
-    height: auto;
-}
-
-.calendar-title {
-    width: 100%;
-    content-align: center middle;
-    color: $text-muted; /* Similar to $primary-background-lighten-3 */
-    margin-bottom: 1;
-}
-
-/* "Label { width: 3; color: ... text-style: italic; }" */
-.calendar-day-header {
-    width: 3;
-    height: 1;
-    content-align: center middle; 
-    color: $text-muted; 
-    text-style: italic;
-}
-
-/* "Label { width: 3; }" */
-.calendar-day {
-    width: 3; 
-    height: 1;
-    content-align: center middle;
-    color: $text;
-    background: transparent;
-}
-
-/* ".not_current_month { color: $panel-lighten-1; }" */
-.calendar-day.other-month {
-    color: $panel-1; 
-    text-style: none;
-}
-
-/* Passed days - dimmed */
-.calendar-day.passed {
-    color: $text-dim;
-    text-style: none;
-}
-
-/* Future days */
-.calendar-day.future {
-    color: $text;
-    text-style: none;
-}
-
-/* ".today { color: $accent; text-style: bold underline; }" */
-.calendar-day.today {
-    color: $accent-orange;
-    text-style: bold underline;
-}
-
-/* Task List */
-.task-list-view {
+    min-width: 20%;
     height: 100%;
-    background: $panel-0;
-}
-
-ListView {
-    background: transparent;
-}
-
-ListItem {
-    padding: 0 1;
-    height: 3;
-    background: transparent;
-    border-bottom: solid $border;
-}
-
-ListItem:hover {
-    background: $accent-purple 15%;
-}
-
-ListItem.-highlight,
-ListItem.-active {
-    background: $accent-purple;
-    color: $bg;
+    content-align: left middle;
+    color: $accent-orange;
     text-style: bold;
 }
 
-/* Modal */
-.modal-screen {
+#nav_center {
+    width: 1fr;
+    height: 100%;
+    layout: horizontal;
     align: center middle;
-    background: $bg 80%;
 }
 
-.modal-container {
-    width: 60%;
-    height: auto;
+#nav_right {
+    width: auto;
+    min-width: 20%;
+    height: 100%;
+    align: right middle;
+    content-align: right middle;
+    color: $text-dim;
+}
+
+/* --- DASHBOARD / LEGACY LAYOUTS (Restored) --- */
+
+/* Outer Frame (Simulated Window) */
+#outer_frame {
+    border: round $border;
+    padding: 0 1; 
+    width: 100%;
+    height: 100%;
+}
+
+/* Main Grid Layout */
+#main_grid {
+    layout: grid;
+    grid-size: 6;
+    grid-columns: 12fr 11fr 23fr 18fr 18fr 18fr;
+    grid-gutter: 0 2; 
+    width: 100%;
+    height: 1fr;
+}
+
+/* Regions */
+#left_region {
+    column-span: 2; 
+    layout: vertical;
+    height: 100%;
+}
+
+#calendar_region {
+    column-span: 1; 
+    height: 100%;
+}
+
+#right_region {
+    column-span: 3; 
+    layout: vertical;
+    height: 100%;
+}
+
+/* Left Region Panels */
+#accounts_panel {
+    height: 26%;
+    border-title-color: $text-muted;
     background: $panel-0;
     border: round $border;
-    padding: 2 4;
+    padding: 1;
 }
 
-.modal-title {
+.account-row.highlight {
+    background: $panel-1;
+    color: $accent-blue;
+}
+
+#insights_panel {
+    height: 1fr;
+    margin-top: 1;
+    border-title-color: $text-muted;
+    background: $panel-0;
+    border: round $border;
+    padding: 1;
+}
+.insight-big-num {
+    text-style: bold;
+    margin-top: 1;
+    color: $accent-green;
+}
+
+/* Calendar Panel */
+#calendar_panel {
+    height: 60%;
+    border: round $border;
+    padding: 1 2;
+    margin-bottom: 1; 
+    background: $panel-0;
+}
+
+#mode_tabs {
+    height: 2;
+    align: center middle;
+}
+.mode-labels {
+    color: $text-muted; 
+}
+
+#period_row {
+    height: 2;
+    align: center middle;
+    margin-top: 0;
+}
+.period-text {
+    content-align: center middle;
+}
+
+/* Hosting Panel */
+#hosting_panel {
+    height: 1fr; 
+    border: round $border;
+    border-title-color: $text-muted;
+    padding: 1 2;
+    background: $panel-0;
+}
+
+/* Right Region Panels */
+#templates_panel {
+    height: 18%; 
+    margin-bottom: 1;
+    border: round $accent-blue;
+    border-title-color: $accent-blue;
+    background: $panel-0;
+    padding: 1;
+}
+.template-btn {
+    width: 1fr;
+    border: none;
+    height: 1;
+    margin-right: 1;
+    background: $panel-2; 
+}
+
+#records_panel {
+    height: 1fr;
+    border: round $accent-orange;
+    border-title-color: $accent-orange;
+    background: $panel-0;
+    padding: 1;
+}
+.record-header-row {
+    color: $accent-orange;
+    margin-bottom: 1;
+}
+.filter-row {
+    color: $text-dim;
+    border-bottom: solid $border;
+    margin-bottom: 1;
+}
+.table-header {
+    background: $panel-1;
     color: $text-muted;
     text-style: bold;
-    margin-bottom: 2;
-    content-align: center middle;
 }
-
-Input {
-    background: $panel-2;
-    border: round $border;
-    margin-bottom: 1;
-    padding: 0 1;
+.date-divider {
+    background: $accent-purple 30%;
     color: $text;
-}
-
-Input:focus {
-    border: round $accent-blue;
-}
-
-Button {
-    background: $panel-0;
-    color: $text;
-    border: round $border;
     margin-top: 1;
 }
 
-Button:focus {
-    border: round $accent-blue;
+
+/* --- TASKS VIEW (Bagels V2) --- */
+
+#task-browser-panel {
+    height: 100%;
+    background: $bg;
+    padding-right: 1;
+}
+
+#browser-header {
+    height: 3;
+    dock: top;
+    align-vertical: middle;
+    margin-bottom: 1;
+    background: $panel-0;
+    padding: 0 1;
+    border-bottom: solid $border;
+}
+
+.browser-title {
+    width: 1fr;
+    text-style: bold;
+    color: $accent-cyan;
+    content-align: left middle;
+}
+
+#view-switcher-group {
+    width: auto;
+    height: 100%;
+    align: right middle;
+}
+
+/* Capsule Switcher style */
+.view-btn {
+    min-width: 10;
+    height: 1; 
+    border: none;
+    background: $panel-1;
+    color: $text-muted;
+}
+
+.view-btn.primary {
+    background: $accent-purple;
+    color: $bg;
+    text-style: bold;
+}
+
+/* Data Table Styling (CCOM Style) */
+DataTable {
+    background: $bg;
+    border: none;
+    padding: 0 1;
+}
+DataTable > .datatable--header {
+    background: $panel-0;
+    color: $text-muted;
+    text-style: bold; 
+    border-bottom: solid $border;
+}
+DataTable > .datatable--row {
     color: $text;
-    text-style: bold;
+    background: $bg;
+    border-bottom: solid $panel-0; 
+}
+DataTable > .datatable--row-hover {
+    background: $panel-1;
+    color: $text;
 }
 
-Button.primary {
-    background: $panel-0;
-    border: round $accent-purple;
-    color: $accent-purple;
+/* Task Card (Tasker Style) */
+#card-list-container {
+    layout: vertical;
+    padding: 0 1; 
 }
 
-/* Login Screen */
-.login-card {
-    width: 60%;
-    min-height: 24;
-    align: center middle;
-    padding: 2 4;
-    border: round $border;
-    background: $panel-0;
+.task-list-card {
+    height: auto;
+    background: $panel-1;
+    margin-bottom: 1;
+    padding: 1;
+    border-left: thick $text-dim; 
 }
 
-.login-title {
-    text-style: bold;
-    color: $accent-orange;
-    content-align: center middle;
+.task-list-card:hover {
+    background: $panel-2;
+}
+
+/* Card Header */
+.card-row-header {
+    layout: horizontal;
+    height: 1;
     margin-bottom: 1;
 }
 
-.login-subtitle {
+.card-status-icon {
+    width: 3;
     content-align: center middle;
-    color: $text-dim;
-    margin-bottom: 2;
-    border-bottom: solid $border;
-    padding-bottom: 1;
 }
+.status-icon-started { color: $accent-blue; }
+.status-icon-needs-sign-off { color: $danger; }
+.status-icon-assigned { color: $accent-orange; }
+.status-icon-completed { color: $success; }
+.status-icon-not-assigned { color: $text-dim; }
 
-.login-label-center {
-    color: $text-muted;
-    margin: 1 0 1 0;
-    content-align: center middle;
+.card-title {
+    width: 1fr;
     text-style: bold;
-}
-
-/* Stats */
-.stat-row {
-    height: 1;
-    margin-bottom: 0;
-}
-
-.stat-label {
-    color: $text-muted;
-}
-
-.stat-value {
-    color: $accent-blue;
-    text-style: bold;
-}
-
-/* Tabs */
-TabbedContent {
-    background: $bg;
-}
-
-Tab {
-    color: $text-dim;
-    background: $bg;
-}
-
-Tab.-active {
     color: $text;
-    text-style: bold;
-    border-bottom: solid $accent-purple;
 }
 
-/* Footer */
-#key-footer {
+/* Card Body (Tags) */
+.card-row-body {
+    layout: horizontal;
+    height: 1;
+    margin-bottom: 1;
+    padding-left: 3; 
+}
+
+.card-tag {
     background: $panel-0;
-    border: round $border;
+    color: $accent-cyan;
     padding: 0 1;
-    color: $text-muted;
+    margin-right: 1;
 }
 
-Footer .footer--key {
-    color: $accent-orange;
+/* Card Footer */
+.card-row-footer {
+    layout: horizontal;
+    height: 1;
+    align-vertical: bottom;
+    padding-left: 3;
+}
+
+.avatar-circle {
+    width: 4;
+    height: 1;
+    background: $accent-purple;
+    color: $bg;
+    content-align: center middle;
     text-style: bold;
+}
+
+.card-due-date {
+    width: 1fr;
+    content-align: right bottom;
+    color: $text-dim;
+}
+
+/* Item Detail Panel */
+#item-detail-panel {
+    border: round $border;
+    border-title-color: $accent-purple;
+    padding: 1 2;
+    height: 100%;
+    background: $panel-0;
+}
+
+.detail-header {
+    text-align: center;
+    text-style: bold;
+    color: $accent-purple;
+    margin-bottom: 1;
+    border-bottom: solid $border;
+}
+
+.detail-row {
+    color: $text;
+    padding: 0 1;
+}
+
+.detail-desc {
+    color: $text-muted;
+    padding: 1;
+    margin-top: 1;
+    background: $panel-1;
+}
+
+/* Layout Containers */
+ContentSwitcher {
+    height: 1fr;
+}
+
+TasksView {
+    width: 100%;
+    height: 100%;
+    padding: 1; 
+}
+
+#tasks-split-view {
+    width: 100%;
+    height: 100%;
+    layout: horizontal;
+}
+
+#task-list-container {
+    width: 45%; 
+    height: 100%;
+}
+
+#task-details-container {
+    width: 55%;
+    height: 100%;
+    padding-left: 1;
 }
